@@ -48,11 +48,8 @@ export class Renderer
     configureWebGL()
     {
         this.gl.enable(this.gl.DEPTH_TEST);
-
         this.gl.depthFunc(this.gl.LEQUAL);
-
         this.gl.enable(this.gl.CULL_FACE);
-
         this.gl.cullFace(this.gl.BACK);
 
         this.gl.clearColor(
@@ -211,7 +208,10 @@ export class Renderer
         const indices =
         [
             0, 1, 2,
-            0, 2, 3
+            0, 2, 3,
+
+            2, 1, 0,
+            3, 2, 0
         ];
 
         return new Mesh(

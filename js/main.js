@@ -9,6 +9,8 @@ import { PictureInPicture } from "./ui/PictureInPicture.js";
 
 import { OBJLoader } from "./loaders/OBJLoader.js";
 
+const vec3 = glMatrix.vec3;
+
 const canvas =
     document.getElementById(
         "glCanvas"
@@ -77,6 +79,12 @@ async function initialize()
             0.1,
             0.1,
             0.1
+        );
+
+        player.color = vec3.fromValues(
+            0.4,
+            0.5,
+            0.6
         );
     });
 
