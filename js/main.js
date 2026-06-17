@@ -1,4 +1,5 @@
 import { Renderer } from "./core/Renderer.js";
+import { PortalRenderer } from "./core/PortalRenderer.js";
 import { Camera } from "./core/Camera.js";
 
 import { Scene } from "./scene/Scene.js";
@@ -42,6 +43,7 @@ const mainCamera = new Camera();
 
 let minimap = null;
 let pictureInPicture = null;
+let portalRenderer = null;
 
 let previousTime = 0;
 
@@ -66,6 +68,23 @@ async function initialize()
                 renderer.planeMesh
         }
     );
+
+    const portal1 =
+        scene.gameObjects.find(
+            o => o.name === "Portal1"
+        );
+    portal1.useTexture = true;
+    portal1.texture = renderer.portalFramebufferB.colorTexture;
+
+    const portal2 =
+        scene.gameObjects.find(
+            o => o.name === "Portal2"
+        );
+    portal2.useTexture = true;
+    portal2.texture = renderer.portalFramebufferA.colorTexture;
+
+    window.scene = scene;
+    window.renderer = renderer;
 
     const objLoader = new OBJLoader(gl);
 
@@ -98,6 +117,12 @@ async function initialize()
 
     pictureInPicture =
         new PictureInPicture(
+            renderer,
+            scene
+        );
+
+    portalRenderer =
+        new PortalRenderer(
             renderer,
             scene
         );
@@ -169,13 +194,14 @@ function update(deltaTime)
 
     minimap.update();
     pictureInPicture.update();
+    portalRenderer.update();
 }
 
 function render()
 {
     minimap.render();
-
     pictureInPicture.render();
+    portalRenderer.render();
 
     renderer.renderToScreen(
         scene,

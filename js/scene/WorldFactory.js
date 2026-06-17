@@ -326,7 +326,7 @@ export class WorldFactory
 
         portal.transform.setScale(
             wallHeight,
-            0.0,
+            0.01,
             0.75 * 3.0 * cellSize
         );
 

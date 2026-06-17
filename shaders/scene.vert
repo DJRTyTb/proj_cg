@@ -9,6 +9,7 @@ uniform mat4 uProjectionMatrix;
 
 out vec3 vWorldPosition;
 out vec3 vWorldNormal;
+out vec2 vTexCoord;
 
 void main()
 {
@@ -29,4 +30,6 @@ void main()
         uProjectionMatrix *
         uViewMatrix *
         worldPosition;
+
+    vTexCoord = aPosition.xz + vec2(0.5);
 }

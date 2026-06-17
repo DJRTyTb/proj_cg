@@ -16,6 +16,8 @@ export class Renderer
 
         this.minimapFramebuffer = null;
         this.portalFramebuffer = null;
+        this.portalFramebufferA = null;
+        this.portalFramebufferB = null;
 
         this.cubeMesh = null;
         this.planeMesh = null;
@@ -84,6 +86,22 @@ export class Renderer
                 512
             );
         this.minimapFramebuffer.initialize();
+
+        this.portalFramebufferA =
+            new Framebuffer(
+                this.gl,
+                512,
+                512
+            );
+        this.portalFramebufferA.initialize();
+
+        this.portalFramebufferB =
+            new Framebuffer(
+                this.gl,
+                512,
+                512
+            );
+        this.portalFramebufferB.initialize();
 
         this.portalFramebuffer =
             new Framebuffer(

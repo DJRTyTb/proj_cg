@@ -4,11 +4,15 @@ precision highp float;
 
 in vec3 vWorldPosition;
 in vec3 vWorldNormal;
+in vec2 vTexCoord;
 
 uniform vec3 uObjectColor;
 
 uniform vec3 uLightDirection;
 uniform vec3 uLightColor;
+
+uniform sampler2D uTexture;
+uniform int uUseTexture;
 
 out vec4 fragColor;
 
@@ -38,5 +42,19 @@ void main()
         uObjectColor;
 
     vec3 finalColor = ambientComponent + diffuseComponent;
-    fragColor = vec4(finalColor, 1.0);
+
+    if (uUseTexture == 1)
+    {
+        vec4 textureColor =
+            texture(
+                uTexture,
+                vTexCoord
+            );
+
+        fragColor = textureColor;
+    }
+    else
+    {
+        fragColor = vec4(finalColor, 1.0);
+    }
 }

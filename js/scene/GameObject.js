@@ -18,6 +18,9 @@ export class GameObject
             0.8
         );
 
+        this.texture = null;
+        this.useTexture = false;
+
         this.isVisible = true;
     }
 
@@ -38,6 +41,28 @@ export class GameObject
             "uObjectColor",
             this.color
         );
+
+        shaderProgram.setInt(
+            "uUseTexture",
+            this.useTexture ? 1 : 0
+        );
+
+        if (this.useTexture)
+        {
+            this.mesh.gl.activeTexture(
+                this.mesh.gl.TEXTURE0
+            );
+
+            this.mesh.gl.bindTexture(
+                this.mesh.gl.TEXTURE_2D,
+                this.texture
+            );
+
+            shaderProgram.setInt(
+                "uTexture",
+                0
+            );
+        }
 
         this.mesh.draw();
     }
