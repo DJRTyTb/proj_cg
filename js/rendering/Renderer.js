@@ -192,7 +192,7 @@ export class Renderer
 
                         camera.setPosition(
                             position[0],
-                            position[1] + 25.0,
+                            position[1] + 50.0,
                             position[2] + 5.0
                         );
 
@@ -355,11 +355,7 @@ export class Renderer
         this.clear();
         this.renderScene(scene, camera);
         const err = this.gl.getError();
-
-        if (err)
-        {
-            console.log("GL ERROR", err);
-        }
+        if (err) console.log("GL ERROR", err);
 
         this.gl.activeTexture(this.gl.TEXTURE0);
 
