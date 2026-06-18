@@ -3,20 +3,31 @@ export class Scene
     constructor()
     {
         this.gameObjects = [];
+
         this.player = null;
+
+        this.portalObjects =
+        {
+            first: null,
+            second: null
+        };
+
+        this.portals =
+        {
+            first: null,
+            second: null
+        };
     }
 
     addObject(gameObject)
     {
         this.gameObjects.push(gameObject);
-
         return gameObject;
     }
 
     setPlayer(player)
     {
         this.player = player;
-
         this.addObject(player);
     }
 

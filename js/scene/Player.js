@@ -135,6 +135,7 @@ export class Player extends GameObject
                     0.5,
                     tp[1]
                 );
+                this.currentYaw += Math.PI;
             }
         }
 
@@ -155,6 +156,7 @@ export class Player extends GameObject
                     0.5,
                     tp[1]
                 );
+                this.currentYaw += Math.PI;
             }
         }
     }
@@ -188,7 +190,7 @@ export class Player extends GameObject
 
                 const distance = Math.sqrt(dx * dx + dz * dz);
 
-                if (distance < 3.0) return [this.scene.portal1.exitX, this.scene.portal1.exitZ];
+                if (distance < 3.0) return [this.scene.portals.first.exitX, this.scene.portals.first.exitZ];
             }
             else if (object.name === "Portal2") {
                 const portalPosition = object.transform.position;
@@ -198,7 +200,7 @@ export class Player extends GameObject
 
                 const distance = Math.sqrt(dx * dx + dz * dz);
 
-                if (distance < 3.0) return [this.scene.portal2.exitX, this.scene.portal2.exitZ];
+                if (distance < 3.0) return [this.scene.portals.second.exitX, this.scene.portals.second.exitZ];
             }
         }
 

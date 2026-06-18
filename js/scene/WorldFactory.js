@@ -274,7 +274,7 @@ export class WorldFactory
         this.createWall(scene, meshes, 75, 80, cellSize / 2, wallHeight * 0.67, cellSize);
         this.createWall(scene, meshes, 75, 77.5, cellSize / 2, wallHeight * 0.67, cellSize);
 
-        this.createPortalWall(scene, meshes, 85, roomCenterZ, scene.portal1.entranceX - 5, scene.portal1.entranceZ, false);
+        this.createPortalWall(scene, meshes, 85, roomCenterZ, scene.portals.first.entranceX - 5, scene.portals.first.entranceZ, false);
     }
 
     static createPortalWall(scene, meshes, x, z, exitX, exitZ, first)
@@ -319,15 +319,15 @@ export class WorldFactory
         );
 
         portal.transform.setRotation(
-            0.0,
+            -Math.PI / 2.0,
             0.0,
             Math.PI / 2.0
         );
 
         portal.transform.setScale(
-            wallHeight,
+            0.75 * 3.0 * cellSize,
             0.01,
-            0.75 * 3.0 * cellSize
+            wallHeight
         );
 
         portal.color =
@@ -339,8 +339,8 @@ export class WorldFactory
 
         scene.addObject(portal);
 
-        if (first)
-            scene.portal1 =
+        if (first) {
+            scene.portals.first =
             {
                 entranceX: x,
                 entranceZ: z,
@@ -351,8 +351,10 @@ export class WorldFactory
                 width: 0.75 * cellSize,
                 height: wallHeight
             };
-        else
-            scene.portal2 =
+            scene.portalObjects.first = portal;
+        }
+        else {
+            scene.portals.second =
             {
                 entranceX: x,
                 entranceZ: z,
@@ -363,5 +365,7 @@ export class WorldFactory
                 width: 0.75 * cellSize,
                 height: wallHeight
             };
+            scene.portalObjects.second = portal;
+        }
     }
 }

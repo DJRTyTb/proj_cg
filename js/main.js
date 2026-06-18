@@ -1,34 +1,21 @@
-import { Renderer } from "./core/Renderer.js";
-import { PortalRenderer } from "./core/PortalRenderer.js";
-import { Camera } from "./core/Camera.js";
+import { Renderer } from "./rendering/Renderer.js";
+
+import { Camera } from "./rendering/camera/Camera.js";
 
 import { Scene } from "./scene/Scene.js";
 import { WorldFactory } from "./scene/WorldFactory.js";
-
-import { Minimap } from "./ui/Minimap.js";
-import { PictureInPicture } from "./ui/PictureInPicture.js";
 
 import { OBJLoader } from "./loaders/OBJLoader.js";
 
 const vec3 = glMatrix.vec3;
 
-const canvas =
-    document.getElementById(
-        "glCanvas"
-    );
-
-const loadingLabel =
-    document.getElementById(
-        "loadingLabel"
-    );
+const canvas = document.getElementById("glCanvas");
+const loadingLabel = document.getElementById("loadingLabel");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-const gl =
-    canvas.getContext(
-        "webgl2"
-    );
+const gl = canvas.getContext("webgl2");
 
 if (!gl)
 {
@@ -40,10 +27,6 @@ if (!gl)
 const renderer = new Renderer(gl, canvas);
 const scene = new Scene();
 const mainCamera = new Camera();
-
-let minimap = null;
-let pictureInPicture = null;
-let portalRenderer = null;
 
 let previousTime = 0;
 
@@ -69,70 +52,26 @@ async function initialize()
         }
     );
 
-    const portal1 =
-        scene.gameObjects.find(
-            o => o.name === "Portal1"
-        );
-    portal1.useTexture = true;
-    portal1.texture = renderer.portalFramebufferB.colorTexture;
+    setupMainCamera();
 
-    const portal2 =
-        scene.gameObjects.find(
-            o => o.name === "Portal2"
-        );
-    portal2.useTexture = true;
-    portal2.texture = renderer.portalFramebufferA.colorTexture;
+    renderer.initializeScene(
+        scene,
+        mainCamera
+    );
+
+    setupPortalTextures();
+
+    await loadPlayerModel();
 
     window.scene = scene;
     window.renderer = renderer;
 
-    const objLoader = new OBJLoader(gl);
-
-    objLoader.load("assets/car.obj").then((carMesh) =>
-    {
-        const player = scene.player;
-
-        player.mesh = carMesh;
-
-        player.transform.setScale(
-            0.1,
-            0.1,
-            0.1
-        );
-
-        player.color = vec3.fromValues(
-            0.4,
-            0.5,
-            0.6
-        );
-    });
-
-    initializeMainCamera();
-
-    minimap =
-        new Minimap(
-            renderer,
-            scene
-        );
-
-    pictureInPicture =
-        new PictureInPicture(
-            renderer,
-            scene
-        );
-
-    portalRenderer =
-        new PortalRenderer(
-            renderer,
-            scene
-        );
-
-    loadingLabel.style.display ="none";
+    loadingLabel.style.display = "none";
 
     requestAnimationFrame(gameLoop);
 }
 
-function initializeMainCamera()
+function setupMainCamera()
 {
     mainCamera.setPerspective(
         60.0,
@@ -141,6 +80,41 @@ function initializeMainCamera()
         0.1,
         1000.0
     );
+}
+
+function setupPortalTextures()
+{
+    scene.portalObjects.first.useTexture = true;
+    scene.portalObjects.first.texture = renderer.framebuffers.portalA.colorTexture;
+
+    scene.portalObjects.second.useTexture = true;
+    scene.portalObjects.second.texture = renderer.framebuffers.portalB.colorTexture;
+}
+
+async function loadPlayerModel()
+{
+    const objLoader = new OBJLoader(gl);
+
+    const carMesh =
+        await objLoader.load(
+            "assets/car.obj"
+        );
+
+    const player = scene.player;
+    player.mesh = carMesh;
+
+    player.transform.setScale(
+        0.1,
+        0.1,
+        0.1
+    );
+
+    player.color =
+        vec3.fromValues(
+            0.4,
+            0.5,
+            0.6
+        );
 }
 
 function onResize()
@@ -157,66 +131,9 @@ function onResize()
     );
 }
 
-function updateMainCamera()
-{
-    const player = scene.player;
-    if (!player) return;
-
-    const playerPosition = player.transform.position;
-    const playerYaw = player.currentYaw;
-
-    const cameraDistance = 10.0;
-    const cameraHeight = 6.0;
-
-    const offsetX = Math.sin(playerYaw) * cameraDistance;
-    const offsetZ = Math.cos(playerYaw) * cameraDistance;
-
-    mainCamera.setPosition(
-        playerPosition[0] - offsetX,
-        playerPosition[1] + cameraHeight,
-        playerPosition[2] - offsetZ
-    );
-
-    mainCamera.setTarget(
-        playerPosition[0],
-        playerPosition[1] + 1.0,
-        playerPosition[2]
-    );
-
-    mainCamera.update();
-}
-
-function update(deltaTime)
-{
-    scene.update(deltaTime);
-
-    updateMainCamera();
-
-    minimap.update();
-    pictureInPicture.update();
-    portalRenderer.update();
-}
-
-function render()
-{
-    minimap.render();
-    pictureInPicture.render();
-    portalRenderer.render();
-
-    renderer.renderToScreen(
-        scene,
-        mainCamera
-    );
-
-    minimap.draw(canvas.height);
-
-    pictureInPicture.draw(
-        canvas.width,
-        canvas.height
-    );
-}
-
-function gameLoop(currentTime)
+function gameLoop(
+    currentTime
+)
 {
     const deltaTime =
         (
@@ -224,11 +141,10 @@ function gameLoop(currentTime)
             previousTime
         ) / 1000.0;
 
-    previousTime =currentTime;
+    previousTime = currentTime;
 
-    update(deltaTime);
-
-    render();
+    renderer.update(deltaTime);
+    renderer.render();
 
     requestAnimationFrame(gameLoop);
 }
