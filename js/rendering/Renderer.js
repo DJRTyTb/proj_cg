@@ -8,7 +8,7 @@ import { MainCameraController } from "./camera/MainCameraController.js";
 import { RenderView } from "./RenderView.js";
 import { PortalSystem } from "./PortalSystem.js";
 
-const vec3 = glMatrix.vec3;
+import { Vec3 } from "../math/Vec3.js";
 
 export class Renderer
 {
@@ -51,14 +51,14 @@ export class Renderer
         this.currentFramebuffer = null;
 
         this.lightDirection =
-            vec3.fromValues(
+            Vec3.fromValues(
                 -1.0,
                 -1.0,
                 -0.5
             );
 
         this.lightColor =
-            vec3.fromValues(
+            Vec3.fromValues(
                 1.0,
                 1.0,
                 1.0

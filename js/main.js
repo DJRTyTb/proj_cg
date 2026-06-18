@@ -7,7 +7,7 @@ import { WorldFactory } from "./scene/WorldFactory.js";
 
 import { OBJLoader } from "./loaders/OBJLoader.js";
 
-const vec3 = glMatrix.vec3;
+import { Vec3 } from "./math/Vec3.js";
 
 const canvas = document.getElementById("glCanvas");
 const loadingLabel = document.getElementById("loadingLabel");
@@ -110,7 +110,7 @@ async function loadPlayerModel()
     );
 
     player.color =
-        vec3.fromValues(
+        Vec3.fromValues(
             0.4,
             0.5,
             0.6

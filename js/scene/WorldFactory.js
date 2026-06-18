@@ -1,8 +1,7 @@
 import { GameObject } from "./GameObject.js";
 import { Player } from "./Player.js";
 
-const vec3 = glMatrix.vec3;
-const mat4 = glMatrix.mat4;
+import { Vec3 } from "../math/Vec3.js";
 
 const cellSize = 2.5;
 const wallHeight = 4.0;
@@ -52,7 +51,7 @@ export class WorldFactory
         );
 
         ground.color =
-            vec3.fromValues(
+            Vec3.fromValues(
                 0.35,
                 0.35,
                 0.35
@@ -184,7 +183,7 @@ export class WorldFactory
         );
 
         wall.color =
-            vec3.fromValues(
+            Vec3.fromValues(
                 0.7,
                 0.7,
                 0.8
@@ -217,7 +216,7 @@ export class WorldFactory
         );
 
         roomFloor.color =
-            vec3.fromValues(
+            Vec3.fromValues(
                 0.1,
                 0.1,
                 0.5
@@ -255,7 +254,7 @@ export class WorldFactory
             );
 
             pillar.color =
-                vec3.fromValues(
+                Vec3.fromValues(
                     1.0,
                     0.3,
                     0.3
@@ -298,7 +297,7 @@ export class WorldFactory
         );
 
         wall.color =
-            vec3.fromValues(
+            Vec3.fromValues(
                 0.1,
                 0.8,
                 0.25
@@ -331,7 +330,7 @@ export class WorldFactory
         );
 
         portal.color =
-            vec3.fromValues(
+            Vec3.fromValues(
                 0.1,
                 0.3,
                 1.0

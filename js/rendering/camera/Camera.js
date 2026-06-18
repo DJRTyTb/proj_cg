@@ -1,26 +1,26 @@
-const vec3 = glMatrix.vec3;
-const mat4 = glMatrix.mat4;
+import { Vec3 } from "../../math/Vec3.js";
+import { Mat4 } from "../../math/Mat4.js";
 
 export class Camera
 {
     constructor()
     {
         this.position =
-            vec3.fromValues(
+            Vec3.fromValues(
                 0.0,
                 0.0,
                 0.0
             );
 
         this.target =
-            vec3.fromValues(
+            Vec3.fromValues(
                 0.0,
                 0.0,
                 -1.0
             );
 
         this.up =
-            vec3.fromValues(
+            Vec3.fromValues(
                 0.0,
                 1.0,
                 0.0
@@ -31,13 +31,13 @@ export class Camera
         this.nearPlane = 0.1;
         this.farPlane = 1000.0;
 
-        this.viewMatrix = mat4.create();
-        this.projectionMatrix = mat4.create();
+        this.viewMatrix = Mat4.create();
+        this.projectionMatrix = Mat4.create();
     }
 
     updateViewMatrix()
     {
-        mat4.lookAt(
+        Mat4.lookAt(
             this.viewMatrix,
             this.position,
             this.target,
@@ -47,7 +47,7 @@ export class Camera
 
     updateProjectionMatrix()
     {
-        mat4.perspective(
+        Mat4.perspective(
             this.projectionMatrix,
             glMatrix.glMatrix.toRadian(this.fieldOfView),
             this.aspectRatio,
@@ -77,7 +77,7 @@ export class Camera
         z
     )
     {
-        vec3.set(
+        Vec3.set(
             this.position,
             x,
             y,
@@ -91,7 +91,7 @@ export class Camera
         z
     )
     {
-        vec3.set(
+        Vec3.set(
             this.target,
             x,
             y,
@@ -103,7 +103,7 @@ export class Camera
         positionVector
     )
     {
-        vec3.copy(
+        Vec3.copy(
             this.target,
             positionVector
         );

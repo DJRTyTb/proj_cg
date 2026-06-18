@@ -1,7 +1,6 @@
 import { GameObject } from "./GameObject.js";
 
-const vec3 = glMatrix.vec3;
-const mat4 = glMatrix.mat4;
+import { Vec3 } from "../math/Vec3.js";
 
 export class Player extends GameObject
 {
@@ -31,7 +30,7 @@ export class Player extends GameObject
             sprint: false
         };
 
-        this.color = vec3.fromValues(
+        this.color = Vec3.fromValues(
             0.2,
             0.8,
             0.2

@@ -1,6 +1,5 @@
 import { Transform } from "../math/Transform.js";
-
-const vec3 = glMatrix.vec3;
+import { Vec3 } from "../math/Vec3.js";
 
 export class GameObject
 {
@@ -15,7 +14,7 @@ export class GameObject
         this.transform = new Transform();
 
         this.color =
-            vec3.fromValues(
+            Vec3.fromValues(
                 0.8,
                 0.8,
                 0.8

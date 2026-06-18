@@ -1,63 +1,63 @@
-const vec3 = glMatrix.vec3;
-const mat4 = glMatrix.mat4;
+import { Vec3 } from "./Vec3.js";
+import { Mat4 } from "./Mat4.js";
 
 export class Transform
 {
     constructor()
     {
         this.position =
-            vec3.fromValues(
+            Vec3.fromValues(
                 0.0,
                 0.0,
                 0.0
             );
 
         this.rotation =
-            vec3.fromValues(
+            Vec3.fromValues(
                 0.0,
                 0.0,
                 0.0
             );
 
         this.scale =
-            vec3.fromValues(
+            Vec3.fromValues(
                 1.0,
                 1.0,
                 1.0
             );
 
-        this.modelMatrix = mat4.create();
+        this.modelMatrix = Mat4.create();
     }
 
     updateMatrix()
     {
-        mat4.identity(this.modelMatrix);
+        Mat4.identity(this.modelMatrix);
 
-        mat4.translate(
+        Mat4.translate(
             this.modelMatrix,
             this.modelMatrix,
             this.position
         );
 
-        mat4.rotateX(
+        Mat4.rotateX(
             this.modelMatrix,
             this.modelMatrix,
             this.rotation[0]
         );
 
-        mat4.rotateY(
+        Mat4.rotateY(
             this.modelMatrix,
             this.modelMatrix,
             this.rotation[1]
         );
 
-        mat4.rotateZ(
+        Mat4.rotateZ(
             this.modelMatrix,
             this.modelMatrix,
             this.rotation[2]
         );
 
-        mat4.scale(
+        Mat4.scale(
             this.modelMatrix,
             this.modelMatrix,
             this.scale
@@ -70,7 +70,7 @@ export class Transform
         z
     )
     {
-        vec3.set(
+        Vec3.set(
             this.position,
             x,
             y,
@@ -84,7 +84,7 @@ export class Transform
         z
     )
     {
-        vec3.set(
+        Vec3.set(
             this.rotation,
             x,
             y,
@@ -98,7 +98,7 @@ export class Transform
         z
     )
     {
-        vec3.set(
+        Vec3.set(
             this.scale,
             x,
             y,
